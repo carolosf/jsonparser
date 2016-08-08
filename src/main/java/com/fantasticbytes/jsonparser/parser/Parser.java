@@ -17,17 +17,13 @@ class Parser implements TokenCollector {
             new Transition(ParserState.START, ParserEvent.OPEN_BRACE, OBJECT_ENTRY, null),
 
             new Transition(OBJECT_ENTRY, ParserEvent.KEY, ParserState.KEY, null),
-            new Transition(ARRAY_ENTRY, ParserEvent.KEY, ParserState.KEY, null),
 
             new Transition(OBJECT_ENTRY, ParserEvent.CLOSED_BRACE, ParserState.OBJECT_EXIT, null),
-            new Transition(ARRAY_ENTRY, ParserEvent.CLOSED_BRACKET, ParserState.ARRAY_EXIT, Builder::exitContainer),
-            new Transition(ARRAY_ENTRY, ParserEvent.OPEN_BRACE, ParserState.OBJECT_ENTRY, Builder::newObject),
 
             new Transition(ParserState.KEY, ParserEvent.COLON, ParserState.COLON, null),
 
             new Transition(ParserState.VALUE, ParserEvent.COMMA, COMMA, null),
             new Transition(ParserState.VALUE, ParserEvent.CLOSED_BRACE, ParserState.OBJECT_EXIT, Builder::exitContainer),
-            new Transition(ParserState.VALUE, ParserEvent.CLOSED_BRACKET, ParserState.ARRAY_EXIT, Builder::exitContainer),
 
             new Transition(COMMA, ParserEvent.KEY, ParserState.KEY, null),
             new Transition(COMMA, ParserEvent.OPEN_BRACE, ParserState.OBJECT_ENTRY, Builder::newObject),
@@ -46,7 +42,6 @@ class Parser implements TokenCollector {
             new Transition(OBJECT_EXIT, ParserEvent.COMMA, ParserState.COMMA, null),
             new Transition(OBJECT_EXIT, ParserEvent.CLOSED_BRACKET, ParserState.ARRAY_EXIT, Builder::exitContainer),
 
-            new Transition(ARRAY_EXIT, ParserEvent.CLOSED_BRACKET, ParserState.ARRAY_EXIT, Builder::exitContainer),
             new Transition(ARRAY_EXIT, ParserEvent.COMMA, ParserState.COMMA, null),
             new Transition(ARRAY_EXIT, ParserEvent.CLOSED_BRACE, ParserState.OBJECT_EXIT, Builder::exitContainer),
 
